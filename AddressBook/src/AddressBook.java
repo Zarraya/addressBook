@@ -15,8 +15,7 @@ public class AddressBook {
             Class.forName("com.mysql.jdbc.Driver");
 
             // Step 2: Establish the connection to the database
-            conn =
-                    DriverManager.getConnection("jdbc:mysql://localhost/sys?" +
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/sys?" +
                             "user=root&password=motoa84&useSSL=false");
         }
         catch(Exception e){
@@ -95,15 +94,15 @@ public class AddressBook {
         addContact(nameF, nameM, nameL, not, ph1, ph2, em, st, ap, cit, sta, zp);
     }
 
-    public static void main(String[] args) {
-
-       AddressBook ab = new AddressBook();
-
-        Entry ent = new Entry("Austin", "R", "Nafziger", "", "5402208162", "", "hello@me", "F", "1", "or", "fl", "");
-
-        ab.addContact("Austin", "R", "Nafziger", "", "5402208162", "", "hello@me", "F", "1", "or", "fl", "");
-
-        ab.removeContact(ent);
-    }
+//    public static void main(String[] args) {
+//
+//       AddressBook ab = new AddressBook();
+//
+//        Entry ent = new Entry("Austin", "R", "Nafziger", "", "5402208162", "", "hello@me", "F", "1", "or", "fl", "");
+//
+//        ab.addContact("Austin", "R", "Nafziger", "", "5402208162", "", "hello@me", "F", "1", "or", "fl", "");
+//
+//        ab.removeContact(ent);
+//    }
 
 }
