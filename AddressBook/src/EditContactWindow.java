@@ -72,6 +72,9 @@ public class EditContactWindow {
 	private String phone2Type;
 	private String notes;
 	private String image;
+	
+	private static AddressBook ab;
+	private static Entry entry;
 
 	/**
 	 * Launch the application.
@@ -80,27 +83,23 @@ public class EditContactWindow {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					EditContactWindow window = new EditContactWindow();
+					EditContactWindow window = new EditContactWindow(ab, entry);
 					window.mainFrame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
-	}
-
-	/*
-	 * *************************************
-	 * TODO ALL TEXT FIELDS STILL NEED TO BE PREFILLED BY EXISTING CONTACT
-	 * ****************************************
-	 */	
+	}	
 	
 	/**
 	 * Create the application.
 	 * @throws ParseException 
 	 */
-	public EditContactWindow() throws ParseException {
+	public EditContactWindow(AddressBook ab, Entry entry) throws ParseException {
 		initialize();
+		EditContactWindow.ab = ab;
+		EditContactWindow.entry = entry;
 	}
 
 	/**
@@ -368,38 +367,25 @@ public class EditContactWindow {
 	 * Set up submit, delete, cancel buttons w/actions
 	 */
 	private void initializeButtons(){
-		/*
-		 * TODO COMPLETED
-		 * - save contact
-		 */
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "Contact saved");
-				//TODO save contact by deleting/new
-				//TODO delete the old edition
-				//send new
 				getInput();
-				sendInput(first, middle, last, phone1, phone1Type, phone2, phone2Type, 
-						street, apt, city, state, zip, email, company, notes, image);
-				//print();
+				ab.editContact(entry, first, middle, last, phone1, phone1Type, phone2, phone2Type, street, apt, city, state, zip, email, company, notes, image);
 				mainFrame.dispose();
 			}
 		});
 		btnSave.setBounds(174, 578, 89, 30);
 		mainPanel.add(btnSave);
 		
-		/*
-		 * TODO COMPLETED
-		 * - delete command
-		 */
 		JButton btnDelete = new JButton("Delete");
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this contact?", "WARNING",
 				        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 				    JOptionPane.showMessageDialog(null, "Contact deleted.");
-				    //TODO delete contact
+				    ab.removeContact(entry);
 				    mainFrame.dispose();
 				} else {
 				    // no option
@@ -441,74 +427,6 @@ public class EditContactWindow {
 		image = userImg.getDescription();
 		System.out.println(image);
 	}
-	
-	/**
-	 * Collect the input that is in all modifiable fields 
-	 * for the purpose of sending to database.
-	 * 
-	 * Returns a string array of following:
-	 * @param first
-	 * @param middle
-	 * @param last
-	 * @param phoneOne
-	 * @param phoneOneType
-	 * @param phoneTwo
-	 * @param phoneTwoType
-	 * @param street
-	 * @param apt
-	 * @param city
-	 * @param state
-	 * @param zip
-	 * @param email
-	 * @param company
-	 * @param notes
-	 * @return
-	 */
-	private String[] sendInput(String first, String middle, String last, String phoneOne, 
-			String phoneOneType, String phoneTwo, String phoneTwoType, String street, 
-			String apt, String city, String state, String zip, String email, 
-			String company, String notes, String image){
-		String[] input = new String[16];
-		input[0] = first;
-		input[1] = middle;
-		input[2] = last;
-		input[3] = phoneOne;
-		input[4] = phoneOneType;
-		input[5] = phoneTwo;
-		input[6] = phoneTwoType;
-		input[7] = street;
-		input[8] = apt;
-		input[9] = city;
-		input[10] = state;
-		input[11] = zip;
-		input[12] = email;
-		input[13] = company;
-		input[14] = notes;
-		input[15] = image;
-		
-		return input;
-		}
-		
-	/*
-	private void print(){
-		System.out.println(first);
-		System.out.println(middle);
-		System.out.println(last);
-		System.out.println(phoneOne);
-		System.out.println(phoneOneType);
-		System.out.println(phoneTwo);
-		System.out.println(phoneTwoType);
-		System.out.println(street);
-		System.out.println(apt);
-		System.out.println(city);
-		System.out.println(zip);
-		System.out.println(state);
-		System.out.println(email);
-		System.out.println(company);
-		System.out.println(notes);
-		System.out.println(image);
-	}
-	*/
 }
 
 

@@ -11,17 +11,18 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
-
 import java.awt.BorderLayout;
 import javax.swing.ImageIcon;
-import javax.swing.SwingConstants;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
 
 /**
  * 
@@ -33,6 +34,8 @@ import java.awt.event.ActionEvent;
 
 public class MainWindow {
 
+	//AddressBook object
+	static AddressBook ab;
 	private JFrame mainFrame;
 	private JPanel panelSort;
 	private JTextField txtSearch;
@@ -54,24 +57,29 @@ public class MainWindow {
 	private JTextField txtPhone1;
 	//scrolling text area
 	private JTextArea txtNotes;
-	
 	//instance variables
-	private String first = "jackie";
+	private String first;
 	private String middle;
-	private String last = "aveney";
-	private String street = "6370 highlands in the woods avenue";
-	private String apt = "Apt 1234";
-	private String city = "lakeland";
-	private String zip = "33813";
-	private String email = "javeney@outlook.com";
-	private String company = "bath & body works";
-	private String state = "FL";
-	private String phone1 = "+1(352) 428-0702";
-	private String phone1Type = "Mobile";
+	private String last;
+	private String street;
+	private String apt;
+	private String city;
+	private String zip;
+	private String email;
+	private String company;
+	private String state;
+	private String phone1;
+	private String phone1Type;
 	private String phone2;
 	private String phone2Type;
-	private String notes = "Stuff";
-	private String image = "E:\\Users\\javeney\\OneDrive\\workspace_java\\address_book\\AddressBook\\src\\images\\green.png";
+	private String notes;
+	private String image;
+	
+	private String keyword;
+	private int srchCommand;
+	private int sortType;
+	private int sortCommand;
+	private Entry entry;
 	/**
 	 * Launch the application.
 	 */
@@ -79,7 +87,7 @@ public class MainWindow {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MainWindow window = new MainWindow();
+					MainWindow window = new MainWindow(ab);
 					window.mainFrame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -92,8 +100,9 @@ public class MainWindow {
 	 * Create the application.
 	 * @throws ParseException 
 	 */
-	public MainWindow() throws ParseException {
+	public MainWindow(AddressBook ab) throws ParseException {
 		initialize();
+		ab = new AddressBook();
 	}
 
 	/**
@@ -102,15 +111,16 @@ public class MainWindow {
 	 */
 	private void initialize() throws ParseException {
 		mainFrame = new JFrame();
+		mainFrame.setResizable(false);
 		mainFrame.setTitle("Address Book");
-		mainFrame.setBounds(100, 100, 634, 650);
+		mainFrame.setBounds(100, 100, 711, 650);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.getContentPane().setLayout(null);
 		mainFrame.setLocationRelativeTo(null);
 		
 		viewPanel = new JPanel();
-		viewPanel.setLocation(238, 25);
-		viewPanel.setSize(375, 580);
+		viewPanel.setLocation(344, 25);
+		viewPanel.setSize(351, 596);
 		mainFrame.getContentPane().add(viewPanel);
 		viewPanel.setLayout(null);
 		
@@ -130,6 +140,7 @@ public class MainWindow {
 	
 	private void initializeImage(String image){
 		JPanel imagePanel = new JPanel();
+		imagePanel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		imagePanel.setBounds(10, 11, 135, 150);
 		viewPanel.add(imagePanel);
 		
@@ -293,6 +304,11 @@ public class MainWindow {
 		JButton btnEdit = new JButton("Edit");
 		btnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				try {
+					EditContactWindow edit = new EditContactWindow(ab, entry);
+				} catch (ParseException e1) {
+					e1.printStackTrace();
+				}
 				EditContactWindow.main(null);
 			}
 		});
@@ -330,14 +346,10 @@ public class MainWindow {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser chooser = new JFileChooser();
 				int returnVal = chooser.showSaveDialog(viewPanel);
-				String savePath = chooser.getSelectedFile().getPath();
+				
 				if(returnVal == JFileChooser.APPROVE_OPTION){
 					try {
-						/*
-						 * TODO change this to pdf
-						 */
 						FileWriter fw = new FileWriter(chooser.getSelectedFile()+".txt");
-						fw.write(image);
 						fw.write(first+ middle+ last);
 						fw.write(phone1Type+ phone1);
 						fw.write(phone2Type+ phone2);
@@ -349,10 +361,10 @@ public class MainWindow {
 						fw.write(notes);		
 						fw.close();
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 		        }
+				String savePath = chooser.getSelectedFile().getPath();
 		        JOptionPane.showMessageDialog(viewPanel, "Contact saved to: " + savePath);
 			}
 		});
@@ -362,64 +374,124 @@ public class MainWindow {
 	
 	private void initializeSearch(){
 		JPanel panelSearch = new JPanel();
-		panelSearch.setBounds(5, 530, 232, 75);
+		panelSearch.setBounds(5, 530, 335, 91);
 		mainFrame.getContentPane().add(panelSearch);
 		panelSearch.setLayout(null);
 		
+		ButtonGroup search = new ButtonGroup();
+		
 		JRadioButton rdbtnName = new JRadioButton("Name");
-		rdbtnName.setBounds(10, 27, 58, 23);
+		rdbtnName.setBounds(20, 27, 85, 23);
+		rdbtnName.setSelected(true);
+		search.add(rdbtnName);
 		panelSearch.add(rdbtnName);
 		
 		JRadioButton rdbtnCompany = new JRadioButton("Company");
-		rdbtnCompany.setBounds(70, 27, 71, 23);
+		rdbtnCompany.setBounds(119, 27, 90, 23);
+		search.add(rdbtnCompany);
 		panelSearch.add(rdbtnCompany);
 		
 		JRadioButton rdbtnZipCode = new JRadioButton("Zip code");
-		rdbtnZipCode.setBounds(143, 53, 71, 23);
+		rdbtnZipCode.setBounds(224, 53, 87, 23);
+		search.add(rdbtnZipCode);
 		panelSearch.add(rdbtnZipCode);
 		
 		JRadioButton rdbtnPhone = new JRadioButton("Phone");
-		rdbtnPhone.setBounds(10, 53, 58, 23);
+		rdbtnPhone.setBounds(20, 53, 85, 23);
+		search.add(rdbtnPhone);
 		panelSearch.add(rdbtnPhone);
 		
 		JRadioButton rdbtnCity = new JRadioButton("City");
-		rdbtnCity.setBounds(143, 27, 58, 23);
+		rdbtnCity.setBounds(224, 27, 87, 23);
+		search.add(rdbtnCity);
 		panelSearch.add(rdbtnCity);
 		
 		JRadioButton rdbtnState = new JRadioButton("State");
-		rdbtnState.setBounds(70, 53, 71, 23);
+		rdbtnState.setBounds(119, 53, 90, 23);
+		search.add(rdbtnState);
 		panelSearch.add(rdbtnState);
 		
 		txtSearch = new JTextField();
-		txtSearch.setBounds(0, 0, 156, 23);
+		txtSearch.setBounds(0, 0, 249, 23);
 		panelSearch.add(txtSearch);
 		txtSearch.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Search");
-		btnNewButton.setHorizontalAlignment(SwingConstants.LEFT);
-		btnNewButton.setBounds(155, 0, 77, 23);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				keyword = txtSearch.getText();
+				if(rdbtnName.isSelected()){
+					srchCommand = 0;
+				}else if(rdbtnPhone.isSelected()){
+					srchCommand = 1;
+				}else if(rdbtnCompany.isSelected()){
+					srchCommand = 2;
+				}else if(rdbtnState.isSelected()){
+					srchCommand = 3;
+				}else if(rdbtnCity.isSelected()){
+					srchCommand = 4;
+				}else if(rdbtnZipCode.isSelected()){
+					srchCommand = 5;
+				}
+				
+				ab.search(keyword, srchCommand);
+			}
+		});
+		btnNewButton.setBounds(248, 0, 87, 23);
 		panelSearch.add(btnNewButton);
 	}
 	
 	private void initializeSort(){
 		panelSort = new JPanel();
-		panelSort.setBounds(5, 25, 232, 28);
+		panelSort.setBounds(5, 25, 335, 30);
 		mainFrame.getContentPane().add(panelSort);
 		panelSort.setLayout(null);
 		
 		JComboBox<String> comboBox = new JComboBox<String>();
-		comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"Ascending", "Descending"}));
-		comboBox.setBounds(107, 0, 125, 28);
+		comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"Last Name", "First Name", "Zipcode"}));
+		comboBox.setBounds(158, 0, 98, 28);
 		panelSort.add(comboBox);
 		
-		JLabel lblSortBy = new JLabel("Sort by");
-		lblSortBy.setBounds(5, 0, 107, 28);
-		panelSort.add(lblSortBy);
+		ButtonGroup sort = new ButtonGroup();
+		
+		JRadioButton rdbtnAscending = new JRadioButton("Ascend");
+		rdbtnAscending.setBounds(6, 3, 74, 23);
+		rdbtnAscending.setSelected(true);
+		sort.add(rdbtnAscending);
+		panelSort.add(rdbtnAscending);
+		
+		JRadioButton rdbtnDescending = new JRadioButton("Descend");
+		rdbtnDescending.setBounds(80, 3, 79, 23);
+		panelSort.add(rdbtnDescending);
+		sort.add(rdbtnDescending);
+		
+		JButton btnSort = new JButton("Sort");
+		btnSort.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(rdbtnAscending.isSelected()){
+					sortType = 0;
+				}else if(rdbtnDescending.isSelected()){
+					sortType = 1;
+				}
+				
+				if(comboBox.getSelectedItem().equals("Last Name")){
+					sortCommand = 1;
+				}else if(comboBox.getSelectedItem().equals("First Name")){
+					sortCommand = 0;
+				}else if(comboBox.getSelectedItem().equals("Zipcode")){
+					sortCommand = 2;
+				}
+				
+				ab.sort(sortType, sortCommand);
+			}
+		});
+		btnSort.setBounds(254, 0, 81, 28);
+		panelSort.add(btnSort);
 	}
 	
 	private void initializeSidebar(){
 		JScrollPane scrollSidebar = new JScrollPane();
-		scrollSidebar.setBounds(5, 53, 232, 478);
+		scrollSidebar.setBounds(5, 55, 335, 476);
 		mainFrame.getContentPane().add(scrollSidebar);
 		
 		JPanel panelSidebar = new JPanel();
@@ -430,13 +502,18 @@ public class MainWindow {
 	private void initializeToolbar(){
 		JToolBar toolBar = new JToolBar();
 		toolBar.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		toolBar.setBounds(5, 5, 608, 20);
+		toolBar.setBounds(5, 5, 716, 20);
 		mainFrame.getContentPane().add(toolBar);
 		
 		JButton btnCreateANew = new JButton("New Contact");
 		btnCreateANew.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				NewContactWindow.main(null);
+				try {
+					NewContactWindow contact = new NewContactWindow(ab);
+					NewContactWindow.main(null);
+				} catch (ParseException e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 		toolBar.add(btnCreateANew);

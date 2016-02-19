@@ -71,6 +71,8 @@ public class NewContactWindow {
 	private String notes;
 	private String image;
 	
+	static AddressBook ab;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -78,7 +80,7 @@ public class NewContactWindow {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					NewContactWindow window = new NewContactWindow();
+					NewContactWindow window = new NewContactWindow(ab);
 					window.mainFrame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -91,8 +93,9 @@ public class NewContactWindow {
 	 * Create the application.
 	 * @throws ParseException 
 	 */
-	public NewContactWindow() throws ParseException {
+	public NewContactWindow(AddressBook ab) throws ParseException {
 		initialize();
+		NewContactWindow.ab = ab;
 	}
 
 	/**
@@ -337,19 +340,14 @@ public class NewContactWindow {
 	}
 	
 	private void initializeButtons(){
-		/*
-		 * TODO BE COMPLETED
-		 * - submit to database
-		 */
 		JButton btnSubmit = new JButton("Submit");
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "Changes saved.");
 				//TODO store contact
 				getInput();
-				sendInput(first, middle, last, phone1, phone1Type, phone2, phone2Type, street, 
+				ab.addContact(first, middle, last, phone1, phone1Type, phone2, phone2Type, street, 
 						apt, city, state, zip, email, company, notes, image);
-				//print();
 				mainFrame.dispose();
 			}
 		});
@@ -418,78 +416,5 @@ public class NewContactWindow {
 		city = txtCity.getText();
 		state = (String) txtState.getSelectedItem();
 		image = userImg.getDescription();
-		System.out.println(image);
 	}
-	
-	/**
-	 * Collect the input that is in all modifiable fields 
-	 * for the purpose of sending to database.
-	 * 
-	 * Returns a string array of following:
-	 * @param first
-	 * @param middle
-	 * @param last
-	 * @param phoneOne
-	 * @param phoneOneType
-	 * @param phoneTwo
-	 * @param phoneTwoType
-	 * @param street
-	 * @param apt
-	 * @param city
-	 * @param state
-	 * @param zip
-	 * @param email
-	 * @param company
-	 * @param notes
-	 * @param image
-	 * @return
-	 */
-	private String[] sendInput(String first, String middle, String last, String phoneOne, String phoneOneType, 
-								String phoneTwo, String phoneTwoType, String street, 
-								String apt, String city, String state, String zip, String email, 
-								String company, String notes, String image){
-		String[] input = new String[16];
-		input[0] = first;
-		input[1] = middle;
-		input[2] = last;
-		input[3] = phoneOne;
-		input[4] = phoneOneType;
-		input[5] = phoneTwo;
-		input[6] = phoneTwoType;
-		input[7] = street;
-		input[8] = apt;
-		input[9] = city;
-		input[10] = state;
-		input[11] = zip;
-		input[12] = email;
-		input[13] = company;
-		input[14] = notes;
-		input[15] = image;
-		
-		return input;
-	}
-	
-
-	/*
-	 * Testing method
-	 * 
-	private void print(){
-		System.out.println(first);
-		System.out.println(middle);
-		System.out.println(last);
-		System.out.println(phoneOne);
-		System.out.println(phoneOneType);
-		System.out.println(phoneTwo);
-		System.out.println(phoneTwoType);
-		System.out.println(street);
-		System.out.println(apt);
-		System.out.println(city);
-		System.out.println(zip);
-		System.out.println(state);
-		System.out.println(email);
-		System.out.println(company);
-		System.out.println(notes);
-		System.out.println(image);
-	}
-	*/
 }

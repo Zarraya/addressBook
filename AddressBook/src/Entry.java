@@ -1,43 +1,44 @@
-import javax.swing.*;
-
 /**
  * Created by austinnafziger on 2/9/16.
  */
 public class Entry {
 
-
-
     private String nameFirst;
     private String nameMiddle;
     private String nameLast;
-    private String notes;
     private String phoneNumber1;
     private String phoneNumber2;
-    private String email;
+    private String phoneType1;
+    private String phoneType2;
     private String street;
     private String apt;
     private String City;
     private String State;
     private String zip;
+    private String email;
+    private String company;
+    private String notes;
+    private String image;
 
-
-
-    private ImageIcon image;
-
-    public Entry(String nameF, String nameM, String nameL, String not, String ph1, String ph2, String em, String st, String ap, String cit, String sta, String zp){
+    public Entry(String nameF, String nameM, String nameL, String ph1, String ph1Type, String ph2Type,String ph2, 
+            String st, String ap, String cit, String sta, String zp, String em, String comp, String not, String img){
 
         nameFirst = nameF;
         nameMiddle = nameM;
         nameLast = nameL;
-        notes = not;
         phoneNumber1 = ph1;
+        phoneType1 = ph1Type;
         phoneNumber2 = ph2;
-        email = em;
+        phoneType2 = ph2Type;
         street = st;
         apt = ap;
         City = cit;
         State = sta;
         zip = zp;
+        email = em;
+        company = comp;
+        notes = not;
+        image = img;
     }
 
     public String getNameFirst() {
@@ -136,11 +137,35 @@ public class Entry {
         this.zip = zip;
     }
 
-    public ImageIcon getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(ImageIcon image) {
+    public void setImage(String image) {
         this.image = image;
+    }
+    
+    public String getCompany(){
+    	return company;
+    }
+    
+    public void setCompany(String company){
+    	this.company = company;
+    }
+    
+    public String getPhoneType1(){
+    	return phoneType1;
+    }
+    
+    public void setPhoneType1(String phoneType1){
+    	this.phoneType1 = phoneType1;
+    }
+    
+    public String getPhoneType2(){
+    	return phoneType2;
+    }
+    
+    public void setPhoneType2(String phoneType2){
+    	this.phoneType2 = phoneType2;
     }
 }

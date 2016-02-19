@@ -1,5 +1,6 @@
 import java.sql.*;
 import java.sql.Connection;
+import java.text.ParseException;
 
 /**
  * Created by austinnafziger on 2/9/16.
@@ -13,38 +14,38 @@ public class AddressBook {
         try {
             // Step 1: "Load" the JDBC driver
             Class.forName("com.mysql.jdbc.Driver");
-
             // Step 2: Establish the connection to the database
             conn = DriverManager.getConnection("jdbc:mysql://localhost/sys?" +
-                            "user=root&password=motoa84&useSSL=false");
+                            "user=javeney&password=@Rtisan8319&useSSL=false");
         }
         catch(Exception e){
-
-
         }
     }
 
-    public Entry addContact(String nameF, String nameM, String nameL, String not, String ph1, String ph2, String em,
-                           String st, String ap, String cit, String sta, String zp){
+    public Entry addContact(String nameF, String nameM, String nameL, String ph1, String ph2, String ph1Type, String ph2Type, 
+                           String st, String ap, String cit, String sta, String zp, String em, String comp, String not, String img){
 
-        Entry entry = new Entry(nameF, nameM, nameL, not, ph1, ph2, em, st, ap, cit, sta, zp);
+        Entry entry = new Entry(nameF, nameM, nameL, ph1, ph1Type, ph2, ph2Type, st, ap, cit, sta, zp, em, comp, not, img);
 
         try {
-            CallableStatement callSt = conn.prepareCall("{CALL `sys`.`AddContact`(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
+            CallableStatement callSt = conn.prepareCall("{CALL `sys`.`AddContact`(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
 
-            callSt.setString(1, "img");
-            callSt.setString(2, nameF);
-            callSt.setString(3, nameM);
-            callSt.setString(4, nameL);
-            callSt.setString(5, ph1);
+            callSt.setString(1, nameF);
+            callSt.setString(2, nameM);
+            callSt.setString(3, nameL);
+            callSt.setString(4, ph1);
+            callSt.setString(5, ph1Type);
             callSt.setString(6, ph2);
-            callSt.setString(7, em);
+            callSt.setString(7, ph2Type);
             callSt.setString(8, st);
             callSt.setString(9, ap);
             callSt.setString(10, cit);
             callSt.setString(11, sta);
             callSt.setString(12, zp);
-            callSt.setString(13, not);
+            callSt.setString(13, em);
+            callSt.setString(14, comp);
+            callSt.setString(15, not);
+            callSt.setString(16, img);
 
             callSt.execute();
 
@@ -60,49 +61,66 @@ public class AddressBook {
 
     public void removeContact(Entry entry){
 
-
-
         try {
-            CallableStatement callSt = conn.prepareCall("{CALL `sys`.`DropContact`(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
+            CallableStatement callSt = conn.prepareCall("{CALL `sys`.`DropContact`(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
 
-            callSt.setString(1, "img");
-            callSt.setString(2, entry.getNameFirst());
-            callSt.setString(3, entry.getNameMiddle());
-            callSt.setString(4, entry.getNameLast());
-            callSt.setString(5, entry.getPhoneNumber1());
+            callSt.setString(1, entry.getNameFirst());
+            callSt.setString(2, entry.getNameMiddle());
+            callSt.setString(3, entry.getNameLast());
+            callSt.setString(4, entry.getPhoneNumber1());
+            callSt.setString(5, entry.getPhoneType1());
             callSt.setString(6, entry.getPhoneNumber2());
-            callSt.setString(7, entry.getEmail());
+            callSt.setString(7, entry.getPhoneType2());
             callSt.setString(8, entry.getStreet());
             callSt.setString(9, entry.getApt());
             callSt.setString(10, entry.getCity());
             callSt.setString(11, entry.getState());
             callSt.setString(12, entry.getZip());
-            callSt.setString(13, entry.getNotes());
+            callSt.setString(13, entry.getEmail());
+            callSt.setString(14, entry.getCompany());
+            callSt.setString(15, entry.getNotes());
+            callSt.setString(16, entry.getImage());
 
             callSt.execute();
         }catch (SQLException e){
 
-
         }
     }
 
-    public void editContact(Entry entry, String nameF, String nameM, String nameL, String not, String ph1, String ph2, String em,
-                            String st, String ap, String cit, String sta, String zp){
+    public void editContact(Entry entry, String nameF, String nameM, String nameL, String ph1, String ph1Type, String ph2,  String ph2Type, 
+            String st, String ap, String cit, String sta, String zp, String em, String comp, String not, String img){
 
         removeContact(entry);
 
-        addContact(nameF, nameM, nameL, not, ph1, ph2, em, st, ap, cit, sta, zp);
+        addContact(nameF, nameM, nameL, ph1, ph1Type, ph2, ph2Type, st, ap, cit, sta, zp, em, comp, not, img);
+    }
+    
+    public void search(String keyword, int command){
+    	//SQL stuff
+    }
+    
+    public void sort(int command, int keyword){
+    	//SQL stuff
     }
 
-//    public static void main(String[] args) {
-//
-//       AddressBook ab = new AddressBook();
-//
-//        Entry ent = new Entry("Austin", "R", "Nafziger", "", "5402208162", "", "hello@me", "F", "1", "or", "fl", "");
-//
-//        ab.addContact("Austin", "R", "Nafziger", "", "5402208162", "", "hello@me", "F", "1", "or", "fl", "");
-//
-//        ab.removeContact(ent);
-//    }
+    public static void main(String[] args) {
+
+       AddressBook ab = new AddressBook();
+       
+       try {
+		MainWindow screen = new MainWindow(ab);
+		MainWindow.main(null);
+       } catch (ParseException e) {
+		e.printStackTrace();
+       }
+
+	   Entry ent = new Entry("Austin", "R", "Nafziger", "3524280702", "Mobile", "3524280702", "Home", "4544 street", "rm 1", "ft hell", "fl", "36942", "email@email.email",
+			   "horrible company", "blah", "/AddressBook/src/images/lime.png");
+	 
+	   ab.addContact("Austin", "R", "Nafziger", "3524280702", "Mobile", "3524280702", "Home", "4544 street", "rm 1", "ft hell", "fl", "36942", "email@email.email",
+			   "horrible company", "blah", "/AddressBook/src/images/lime.png");
+	
+	   ab.removeContact(ent);
+    }
 
 }
