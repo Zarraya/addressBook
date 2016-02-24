@@ -1,0 +1,88 @@
+-- --------------------------------------------------------------------------------
+-- Routine DDL
+-- Note: comments before and after the routine body will not be stored by the server
+-- --------------------------------------------------------------------------------
+DELIMITER $$
+#Ekaterina Vydra
+#procedure to remove a contact. 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `DropContact`(
+FirstName varchar(45),
+MiddleName varchar(45),
+LastName varchar(45),
+PhoneNumber1 varchar(45),
+PhoneType1 varchar(45),
+PhoneNumber2 varchar(45),
+PhoneType2 varchar(45),
+Street varchar(45),
+Apt varchar(10),
+City varchar(45),
+State varchar(2),
+Zip varchar(10),
+Email varchar(45),
+Company varchar(45),
+Notes varchar(45),
+Image varchar(45))
+BEGIN
+
+DROP table if exists address_book.Contacts_temp;
+
+CREATE TABLE Contacts_temp (
+  FirstName varchar(45) DEFAULT NULL,
+  MiddleName varchar(45) DEFAULT NULL,
+  LastName varchar(45) DEFAULT NULL,
+  PhoneNumber1 varchar(45) DEFAULT NULL,
+  PhoneNumber2 varchar(45) DEFAULT NULL,
+  Email varchar(45) DEFAULT NULL,
+  Street varchar(45) DEFAULT NULL,
+  Apt varchar(10) DEFAULT NULL,
+  City varchar(45) DEFAULT NULL,
+  State varchar(2) DEFAULT NULL,
+  Zip varchar(10) DEFAULT NULL,
+  Notes varchar(45) DEFAULT NULL,
+  Image varchar(45) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=big5;
+
+INSERT INTO Contacts_temp (
+select * FROM address_book.Contacts where not(
+address_book.Contacts.FirstName = FirstName1
+and address_book.Contacts.MiddleName = MiddleName1
+and address_book.Contacts.LastName = LastName1
+and address_book.Contacts.PhoneNumber1 = PhoneNumber11
+and address_book.Contacts.PhoneNumber2 = PhoneNumber21
+and address_book.Contacts.Email = Email1
+and address_book.Contacts.Street = Street1
+and address_book.Contacts.Apt = Apt1
+and address_book.Contacts.City = City1
+and address_book.Contacts.State = State1
+and address_book.Contacts.Zip = Zip1
+and address_book.Contacts.Notes = Notes1));
+
+Drop Table address_book.Contacts;
+
+CREATE TABLE Contacts (
+FirstName varchar(45),
+MiddleName varchar(45) DEFAULT NULL,
+LastName varchar(45),
+PhoneNumber1 varchar(45) DEFAULT NULL,
+PhoneType1 varchar(45) DEFAULT NULL,
+PhoneNumber2 varchar(45) DEFAULT NULL,
+PhoneType2 varchar(45) DEFAULT NULL,
+Street varchar(45) DEFAULT NULL,
+Apt varchar(10) DEFAULT NULL,
+City varchar(45) DEFAULT NULL,
+State varchar(2) DEFAULT NULL,
+Zip varchar(10) DEFAULT NULL,
+Email varchar(45) DEFAULT NULL,
+Company varchar(45) DEFAULT NULL,
+Notes varchar(45) DEFAULT NULL,
+Image varchar(45) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=big5;
+
+insert into Contacts( Select * from Contacts_temp);
+
+
+drop table address_book.Contacts_temp;
+
+select * from Contacts;
+
+END

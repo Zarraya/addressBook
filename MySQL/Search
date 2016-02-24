@@ -1,0 +1,41 @@
+-- --------------------------------------------------------------------------------
+-- Routine DDL
+-- Note: comments before and after the routine body will not be stored by the server
+-- --------------------------------------------------------------------------------
+DELIMITER $$
+
+#procedure to run the Search. Returns a table containing only the contacts
+#matching the search value in any of the 5 columns.  
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Search`(
+#value user entered in 
+SearchValue varchar(45),  
+#column/value to sort by
+SortValue int,
+#order of sorting ascending or descending 
+SortOrder int)
+BEGIN
+
+IF SortOrder = 1 THEN
+SELECT * FROM Contacts 
+WHERE SearchValue IN (FirstName, LastName, State, City, Zip)
+	ORDER BY 
+		CASE SortValue
+		WHEN 0 THEN FirstName
+		WHEN 1 THEN LastName
+		WHEN 2 THEN Zip
+		END desc;
+ELSE 
+SELECT * FROM Contacts 
+WHERE SearchValue IN (FirstName, LastName, State, City, Zip)
+	ORDER BY 
+		CASE SortValue
+		WHEN 0 THEN FirstName
+		WHEN 1 THEN LastName
+		WHEN 2 THEN Zip
+		END asc;
+END IF;
+
+
+
+
+END

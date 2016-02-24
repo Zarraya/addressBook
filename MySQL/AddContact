@@ -1,0 +1,49 @@
+-- --------------------------------------------------------------------------------
+-- Routine DDL
+-- Note: comments before and after the routine body will not be stored by the server
+-- --------------------------------------------------------------------------------
+DELIMITER $$
+
+#Ekaterina Vydra
+#Procedure to create a contact, adds a contact into the contact table. 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `AddContact`(
+FirstName varchar(45),
+MiddleName varchar(45),
+LastName varchar(45),
+PhoneNumber1 varchar(45),
+PhoneType1 varchar(45),
+PhoneNumber2 varchar(45),
+PhoneType2 varchar(45),
+Street varchar(45),
+Apt varchar(10),
+City varchar(45),
+State varchar(2),
+Zip varchar(10),
+Email varchar(45),
+Company varchar(45),
+Notes varchar(45),
+Image varchar(45))
+BEGIN
+
+
+INSERT INTO address_book.Contacts 
+VALUES (FirstName,
+MiddleName,
+LastName,
+PhoneNumber1,
+PhoneType1,
+PhoneNumber2,
+PhoneType2,
+Street,
+Apt,
+City,
+State,
+Zip,
+Email,
+Company,
+Notes,
+Image);
+
+SELECT DISTINCT * FROM address_book.Contacts;
+
+END

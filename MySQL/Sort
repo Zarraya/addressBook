@@ -1,0 +1,35 @@
+-- --------------------------------------------------------------------------------
+-- Routine DDL
+-- Note: comments before and after the routine body will not be stored by the server
+-- --------------------------------------------------------------------------------
+DELIMITER $$
+
+#Sorting the table by selected column/value and ascending or descending order
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Sort`(
+#Value to sort by (First, Last, or Zip)
+SortValue int,
+#Order to sort by (Ascending or Descending)
+SortOrder int)
+BEGIN
+
+
+IF SortOrder = 1 THEN
+	SELECT * FROM Contacts
+	ORDER BY 
+		CASE SortValue
+		WHEN 0 THEN FirstName
+		WHEN 1 THEN LastName
+		WHEN 2 THEN Zip
+		END desc;
+ELSE 
+	SELECT * FROM Contacts
+	ORDER BY 
+		CASE SortValue
+		WHEN 0 THEN FirstName
+		WHEN 1 THEN LastName
+		WHEN 2 THEN Zip
+		END asc;
+END IF;
+
+
+END
