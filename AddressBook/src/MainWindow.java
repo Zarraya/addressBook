@@ -80,22 +80,7 @@ public class MainWindow {
 	private int sortType;
 	private int sortCommand;
 	private Entry entry;
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MainWindow window = new MainWindow(ab);
-					window.mainFrame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
+	
 	/**
 	 * Create the application.
 	 * @throws ParseException 
@@ -109,7 +94,7 @@ public class MainWindow {
 	 * Initialize the contents of the frame.
 	 * @throws ParseException 
 	 */
-	private void initialize() throws ParseException {
+	public void initialize() throws ParseException {
 		mainFrame = new JFrame();
 		mainFrame.setResizable(false);
 		mainFrame.setTitle("Address Book");
@@ -136,6 +121,8 @@ public class MainWindow {
 		initializeSidebar();
 		initializeSearch();
 		initializeSort();
+		
+		mainFrame.setVisible(true);
 	}
 	
 	private void initializeImage(String image){
@@ -307,9 +294,11 @@ public class MainWindow {
 				try {
 					EditContactWindow edit = new EditContactWindow(ab, entry);
 				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				EditContactWindow.main(null);
+				
+				
 			}
 		});
 		btnEdit.setBounds(131, 523, 89, 30);
@@ -510,7 +499,6 @@ public class MainWindow {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					NewContactWindow contact = new NewContactWindow(ab);
-					NewContactWindow.main(null);
 				} catch (ParseException e1) {
 					e1.printStackTrace();
 				}
