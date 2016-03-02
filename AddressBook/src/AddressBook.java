@@ -1,6 +1,7 @@
 import java.sql.*;
 import java.sql.Connection;
 import java.text.ParseException;
+import java.util.ArrayList;
 
 /**
  * Created by austinnafziger on 2/9/16.
@@ -8,6 +9,13 @@ import java.text.ParseException;
 public class AddressBook {
 
     Connection conn;
+
+    private ArrayList<Entry> entries = new ArrayList<Entry>();
+
+    public ArrayList<Entry> getEntries(){
+
+        return entries;
+    }
 
     public AddressBook(){
 
@@ -109,6 +117,8 @@ public class AddressBook {
 
             ResultSet results = callSt.executeQuery();
 
+            entries = analyzeResults(results);
+
         }catch(SQLException e){
 
         }
@@ -126,9 +136,49 @@ public class AddressBook {
 
             ResultSet results = callSt.executeQuery();
 
+            entries = analyzeResults(results);
+
         }catch(SQLException e){
 
         }
+    }
+
+    private ArrayList<Entry> analyzeResults(ResultSet set){
+
+        try{
+
+            entries.clear();
+
+            while(set.next()){
+
+                String first = set.getString("FirstName");
+                String middle = set.getString("MiddleName");
+                String last = set.getString("LastName");
+                String phone1 = set.getString("PhoneNumber1");
+                String phoneType1 = set.getString("PhoneType1");
+                String phone2 = set.getString("PhoneNumber2");
+                String phoneType2 = set.getString("PhoneType2");
+                String street = set.getString("Street");
+                String apt = set.getString("Apt");
+                String city = set.getString("City");
+                String state = set.getString("State");
+                String zip = set.getString("Zip");
+                String email = set.getString("Email");
+                String company = set.getString("Company");
+                String notes = set.getString("Notes");
+
+                Entry temp = new Entry(first, middle, last, phone1, phoneType1, phone2, phoneType2, street, apt, city, state,
+                        zip, email, company, notes);
+
+                entries.add(temp);
+            }
+
+        }catch(SQLException e){
+
+
+        }
+
+        return entries;
     }
 
     public static void main(String[] args) {
