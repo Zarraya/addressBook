@@ -21,7 +21,7 @@ public class Entry {
     private String image;
 
     public Entry(String nameF, String nameM, String nameL, String ph1, String ph1Type, String ph2Type,String ph2, 
-            String st, String ap, String cit, String sta, String zp, String em, String comp, String not, String img){
+            String st, String ap, String cit, String sta, String zp, String em, String comp, String not){
 
         nameFirst = nameF;
         nameMiddle = nameM;
@@ -38,7 +38,6 @@ public class Entry {
         email = em;
         company = comp;
         notes = not;
-        image = img;
     }
 
     public String getNameFirst() {
@@ -135,14 +134,6 @@ public class Entry {
 
     public void setZip(String zip) {
         this.zip = zip;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
     }
     
     public String getCompany(){

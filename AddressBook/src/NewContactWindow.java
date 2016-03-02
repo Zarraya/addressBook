@@ -1,7 +1,5 @@
-import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.text.ParseException;
 import javax.swing.JFormattedTextField;
 import javax.swing.text.MaskFormatter;
@@ -10,13 +8,11 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.awt.event.ActionEvent;
 
 /**
@@ -102,7 +98,6 @@ public class NewContactWindow {
 		mainFrame.getContentPane().add(mainPanel);
 		
 		initializeName(first, middle, last);
-		initializeImage();
 		initializePhone(phone1, phone2, phone1Type, phone2Type);
 		initializeAddress(street, apt, city, state, zip);
 		initializeEmail(email);
@@ -150,37 +145,6 @@ public class NewContactWindow {
 		JLabel lblLastname = new JLabel("Last Name");
 		lblLastname.setBounds(160, 126, 84, 14);
 		mainPanel.add(lblLastname);
-	}
-	
-	private void initializeImage(){
-		JPanel imagePanel = new JPanel();
-		imagePanel.setBounds(15, 15, 135, 150);
-		imagePanel.setLayout(null);
-		mainPanel.add(imagePanel);
-		
-		JLabel lblImg = new JLabel("");
-		userImg = new ImageIcon(getClass().getResource("/images/default-user-image.png"));
-		lblImg.setIcon(userImg);
-		lblImg.setBounds(0, 0, 135, 150);
-		imagePanel.add(lblImg);
-	
-		JButton btnSelectImage = new JButton("Select image");
-		btnSelectImage.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				JFileChooser chooser = new JFileChooser();
-			    FileNameExtensionFilter filter = new FileNameExtensionFilter(
-			            ".png", "png");
-			    chooser.setFileFilter(filter);
-			    chooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-		        int returnVal = chooser.showOpenDialog(mainPanel);
-		        if(returnVal == JFileChooser.APPROVE_OPTION) {
-		           userImg = new ImageIcon(chooser.getSelectedFile().getPath());
-		           lblImg.setIcon(userImg);
-		        }
-			}
-		});
-		btnSelectImage.setBounds(25, 170, 117, 28);
-		mainPanel.add(btnSelectImage);
 	}
 	
 	private void initializePhone(String phone1, String phone2, String phone1Type, String phone2Type){
@@ -329,12 +293,16 @@ public class NewContactWindow {
 		JButton btnSubmit = new JButton("Submit");
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Changes saved.");
-				//TODO store contact
 				getInput();
-				ab.addContact(first, middle, last, phone1, phone1Type, phone2, phone2Type, street, 
-						apt, city, state, zip, email, company, notes, image);
-				mainFrame.dispose();
+				if(checkSave()){
+					ab.addContact(first, middle, last, phone1, phone1Type, phone2, phone2Type, street, 
+							apt, city, state, zip, email, company, notes);
+					JOptionPane.showMessageDialog(null, "Changes saved.");
+					mainFrame.dispose();
+				}else{
+					JOptionPane.showMessageDialog(null, "To save contact please add first and last name.");
+				}
+				
 			}
 		});
 		btnSubmit.setBounds(174, 578, 89, 30);
@@ -402,5 +370,11 @@ public class NewContactWindow {
 		city = txtCity.getText();
 		state = (String) txtState.getSelectedItem();
 		image = userImg.getDescription();
+	}
+	
+	private boolean checkSave(){
+		if(first.isEmpty() || last.isEmpty()){
+			return false;
+		}else{ return true; }
 	}
 }

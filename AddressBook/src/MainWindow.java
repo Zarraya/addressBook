@@ -1,4 +1,3 @@
-import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JPanel;
@@ -12,17 +11,16 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import java.awt.BorderLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.awt.event.ActionEvent;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
 
 /**
  * 
@@ -73,7 +71,6 @@ public class MainWindow {
 	private String phone2;
 	private String phone2Type;
 	private String notes;
-	private String image;
 	
 	private String keyword;
 	private int srchCommand;
@@ -87,7 +84,7 @@ public class MainWindow {
 	 */
 	public MainWindow(AddressBook ab) throws ParseException {
 		initialize();
-		ab = new AddressBook();
+		MainWindow.ab = ab;
 	}
 
 	/**
@@ -109,7 +106,6 @@ public class MainWindow {
 		mainFrame.getContentPane().add(viewPanel);
 		viewPanel.setLayout(null);
 		
-		initializeImage(image);
 		initializeName(first, middle, last);
 		initializePhone(phone1, phone2, phone1Type, phone2Type);
 		initializeAddress(street, apt, city, state, zip);
@@ -123,17 +119,6 @@ public class MainWindow {
 		initializeSort();
 		
 		mainFrame.setVisible(true);
-	}
-	
-	private void initializeImage(String image){
-		JPanel imagePanel = new JPanel();
-		imagePanel.setBorder(new LineBorder(new Color(0, 0, 0)));
-		imagePanel.setBounds(10, 11, 135, 150);
-		viewPanel.add(imagePanel);
-		
-		JLabel lblImage = new JLabel("");
-		lblImage.setIcon(new ImageIcon(image));
-		imagePanel.add(lblImage);
 	}
 	
 	private void initializeName(String first, String middle, String last){
@@ -338,17 +323,18 @@ public class MainWindow {
 				
 				if(returnVal == JFileChooser.APPROVE_OPTION){
 					try {
-						FileWriter fw = new FileWriter(chooser.getSelectedFile()+".txt");
-						fw.write(first+ middle+ last);
-						fw.write(phone1Type+ phone1);
-						fw.write(phone2Type+ phone2);
-						fw.write(street);
-						fw.write(apt);
-						fw.write(city+ state+ zip);
-						fw.write(email);
-						fw.write(company);
-						fw.write(notes);		
-						fw.close();
+						File file = new File(chooser.getSelectedFile() + ".txt");
+						PrintWriter pw = new PrintWriter(file);
+						pw.println(first+ middle+ last);
+						pw.println(phone1Type+ phone1);
+						pw.println(phone2Type+ phone2);
+						pw.println(street);
+						pw.println(apt);
+						pw.println(city+ state+ zip);
+						pw.println(email);
+						pw.println(company);
+						pw.println(notes);		
+						pw.close();
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}

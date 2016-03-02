@@ -23,12 +23,12 @@ public class AddressBook {
     }
 
     public Entry addContact(String nameF, String nameM, String nameL, String ph1, String ph2, String ph1Type, String ph2Type, 
-                           String st, String ap, String cit, String sta, String zp, String em, String comp, String not, String img){
+                           String st, String ap, String cit, String sta, String zp, String em, String comp, String not){
 
-        Entry entry = new Entry(nameF, nameM, nameL, ph1, ph1Type, ph2, ph2Type, st, ap, cit, sta, zp, em, comp, not, img);
+        Entry entry = new Entry(nameF, nameM, nameL, ph1, ph1Type, ph2, ph2Type, st, ap, cit, sta, zp, em, comp, not);
 
         try {
-            CallableStatement callSt = conn.prepareCall("{CALL `sys`.`AddContact`(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
+            CallableStatement callSt = conn.prepareCall("{CALL `sys`.`AddContact`(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
 
             callSt.setString(1, nameF);
             callSt.setString(2, nameM);
@@ -45,7 +45,6 @@ public class AddressBook {
             callSt.setString(13, em);
             callSt.setString(14, comp);
             callSt.setString(15, not);
-            callSt.setString(16, img);
 
             callSt.execute();
 
@@ -53,7 +52,7 @@ public class AddressBook {
 
         }catch (SQLException e){
 
-
+        	e.printStackTrace();
         }
 
         return entry;
@@ -62,7 +61,7 @@ public class AddressBook {
     public void removeContact(Entry entry){
 
         try {
-            CallableStatement callSt = conn.prepareCall("{CALL `sys`.`DropContact`(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
+            CallableStatement callSt = conn.prepareCall("{CALL `sys`.`DropContact`(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
 
             callSt.setString(1, entry.getNameFirst());
             callSt.setString(2, entry.getNameMiddle());
@@ -79,7 +78,6 @@ public class AddressBook {
             callSt.setString(13, entry.getEmail());
             callSt.setString(14, entry.getCompany());
             callSt.setString(15, entry.getNotes());
-            callSt.setString(16, entry.getImage());
 
             callSt.execute();
         }catch (SQLException e){
@@ -88,11 +86,11 @@ public class AddressBook {
     }
 
     public void editContact(Entry entry, String nameF, String nameM, String nameL, String ph1, String ph1Type, String ph2,  String ph2Type, 
-            String st, String ap, String cit, String sta, String zp, String em, String comp, String not, String img){
+            String st, String ap, String cit, String sta, String zp, String em, String comp, String not){
 
         removeContact(entry);
 
-        addContact(nameF, nameM, nameL, ph1, ph1Type, ph2, ph2Type, st, ap, cit, sta, zp, em, comp, not, img);
+        addContact(nameF, nameM, nameL, ph1, ph1Type, ph2, ph2Type, st, ap, cit, sta, zp, em, comp, not);
     }
     
     public void search(String keyword, int command){
@@ -109,18 +107,17 @@ public class AddressBook {
        
        try {
 		MainWindow screen = new MainWindow(ab);
-		screen.initialize();
        } catch (ParseException e) {
 		e.printStackTrace();
        }
 
 	   Entry ent = new Entry("Austin", "R", "Nafziger", "3524280702", "Mobile", "3524280702", "Home", "4544 street", "rm 1", "ft hell", "fl", "36942", "email@email.email",
-			   "horrible company", "blah", "/AddressBook/src/images/lime.png");
+			   "horrible company", "blah");
 	 
-	   ab.addContact("Austin", "R", "Nafziger", "3524280702", "Mobile", "3524280702", "Home", "4544 street", "rm 1", "ft hell", "fl", "36942", "email@email.email",
-			   "horrible company", "blah", "/AddressBook/src/images/lime.png");
-	
-	   ab.removeContact(ent);
+//	   ab.addContact("Austin", "R", "Nafziger", "3524280702", "Mobile", "3524280702", "Home", "4544 street", "rm 1", "ft hell", "fl", "36942", "email@email.email",
+//			   "horrible company", "blah", "/AddressBook/src/images/lime.png");
+//	
+//	   ab.removeContact(ent);
     }
 
 }
