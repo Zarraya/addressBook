@@ -347,74 +347,7 @@ public class MainWindow {
 		viewPanel.add(btnPrint);
 	}
 	
-	private void initializeSearch(){
-		JPanel panelSearch = new JPanel();
-		panelSearch.setBounds(5, 530, 335, 91);
-		mainFrame.getContentPane().add(panelSearch);
-		panelSearch.setLayout(null);
-		
-		ButtonGroup search = new ButtonGroup();
-		
-		JRadioButton rdbtnName = new JRadioButton("Name");
-		rdbtnName.setBounds(20, 27, 85, 23);
-		rdbtnName.setSelected(true);
-		search.add(rdbtnName);
-		panelSearch.add(rdbtnName);
-		
-		JRadioButton rdbtnCompany = new JRadioButton("Company");
-		rdbtnCompany.setBounds(119, 27, 90, 23);
-		search.add(rdbtnCompany);
-		panelSearch.add(rdbtnCompany);
-		
-		JRadioButton rdbtnZipCode = new JRadioButton("Zip code");
-		rdbtnZipCode.setBounds(224, 53, 87, 23);
-		search.add(rdbtnZipCode);
-		panelSearch.add(rdbtnZipCode);
-		
-		JRadioButton rdbtnPhone = new JRadioButton("Phone");
-		rdbtnPhone.setBounds(20, 53, 85, 23);
-		search.add(rdbtnPhone);
-		panelSearch.add(rdbtnPhone);
-		
-		JRadioButton rdbtnCity = new JRadioButton("City");
-		rdbtnCity.setBounds(224, 27, 87, 23);
-		search.add(rdbtnCity);
-		panelSearch.add(rdbtnCity);
-		
-		JRadioButton rdbtnState = new JRadioButton("State");
-		rdbtnState.setBounds(119, 53, 90, 23);
-		search.add(rdbtnState);
-		panelSearch.add(rdbtnState);
-		
-		txtSearch = new JTextField();
-		txtSearch.setBounds(0, 0, 249, 23);
-		panelSearch.add(txtSearch);
-		txtSearch.setColumns(10);
-		
-		JButton btnNewButton = new JButton("Search");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				keyword = txtSearch.getText();
-				if(rdbtnName.isSelected()){
-					srchCommand = 0;
-				}else if(rdbtnPhone.isSelected()){
-					srchCommand = 1;
-				}else if(rdbtnCompany.isSelected()){
-					srchCommand = 2;
-				}else if(rdbtnState.isSelected()){
-					srchCommand = 3;
-				}else if(rdbtnCity.isSelected()){
-					srchCommand = 4;
-				}else if(rdbtnZipCode.isSelected()){
-					srchCommand = 5;
-				}
-				
-				ab.search(keyword, srchCommand);
-			}
-		});
-		btnNewButton.setBounds(248, 0, 87, 23);
-		panelSearch.add(btnNewButton);
-	}
+
 	
 	private void initializeSort(){
 		panelSort = new JPanel();
@@ -462,6 +395,32 @@ public class MainWindow {
 		});
 		btnSort.setBounds(254, 0, 81, 28);
 		panelSort.add(btnSort);
+	}
+
+	private void initializeSearch(){
+		JPanel panelSearch = new JPanel();
+		panelSearch.setBounds(5, 530, 335, 91);
+		mainFrame.getContentPane().add(panelSearch);
+		panelSearch.setLayout(null);
+
+
+
+		txtSearch = new JTextField();
+		txtSearch.setBounds(0, 0, 249, 23);
+		panelSearch.add(txtSearch);
+		txtSearch.setColumns(10);
+
+		JButton btnNewButton = new JButton("Search");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				keyword = txtSearch.getText();
+
+
+				ab.search(keyword, sortCommand, sortType);
+			}
+		});
+		btnNewButton.setBounds(248, 0, 87, 23);
+		panelSearch.add(btnNewButton);
 	}
 	
 	private void initializeSidebar(){

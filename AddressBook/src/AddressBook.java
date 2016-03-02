@@ -16,13 +16,17 @@ public class AddressBook {
             Class.forName("com.mysql.jdbc.Driver");
             // Step 2: Establish the connection to the database
             conn = DriverManager.getConnection("jdbc:mysql://localhost/sys?" +
-                            "user=javeney&password=@Rtisan8319&useSSL=false");
+                            "user=root&password=motoa84&useSSL=false");
+
+
+            CallableStatement callSt = conn.prepareCall("{CALL `sys`.`SetUp`()}");
+            callSt.execute();
         }
         catch(Exception e){
         }
     }
 
-    public Entry addContact(String nameF, String nameM, String nameL, String ph1, String ph2, String ph1Type, String ph2Type, 
+    public Entry addContact(String nameF, String nameM, String nameL, String ph1, String ph1Type, String ph2, String ph2Type,
                            String st, String ap, String cit, String sta, String zp, String em, String comp, String not){
 
         Entry entry = new Entry(nameF, nameM, nameL, ph1, ph1Type, ph2, ph2Type, st, ap, cit, sta, zp, em, comp, not);
@@ -93,12 +97,38 @@ public class AddressBook {
         addContact(nameF, nameM, nameL, ph1, ph1Type, ph2, ph2Type, st, ap, cit, sta, zp, em, comp, not);
     }
     
-    public void search(String keyword, int command){
-    	//SQL stuff
+    public void search(String keyword, int command, int aod){
+
+        try{
+
+            CallableStatement callSt = conn.prepareCall("{CALL `sys`.`Search`(?,?,?)}");
+
+            callSt.setString(1, keyword);
+            callSt.setInt(2, command); //what are you sorting by
+            callSt.setInt(3, aod); //ascending or decending
+
+            ResultSet results = callSt.executeQuery();
+
+        }catch(SQLException e){
+
+        }
     }
     
-    public void sort(int command, int keyword){
-    	//SQL stuff
+    public void sort(int command, int aod){
+
+        try{
+
+            CallableStatement callSt = conn.prepareCall("{CALL `sys`.`Sort`(?,?)}");
+
+
+            callSt.setInt(1, command); //what are you sorting by
+            callSt.setInt(2, aod); //ascending or decending
+
+            ResultSet results = callSt.executeQuery();
+
+        }catch(SQLException e){
+
+        }
     }
 
     public static void main(String[] args) {
@@ -111,13 +141,7 @@ public class AddressBook {
 		e.printStackTrace();
        }
 
-	   Entry ent = new Entry("Austin", "R", "Nafziger", "3524280702", "Mobile", "3524280702", "Home", "4544 street", "rm 1", "ft hell", "fl", "36942", "email@email.email",
-			   "horrible company", "blah");
-	 
-//	   ab.addContact("Austin", "R", "Nafziger", "3524280702", "Mobile", "3524280702", "Home", "4544 street", "rm 1", "ft hell", "fl", "36942", "email@email.email",
-//			   "horrible company", "blah", "/AddressBook/src/images/lime.png");
-//	
-//	   ab.removeContact(ent);
+
     }
 
 }

@@ -20,7 +20,7 @@ public class Entry {
     private String notes;
     private String image;
 
-    public Entry(String nameF, String nameM, String nameL, String ph1, String ph1Type, String ph2Type,String ph2, 
+    public Entry(String nameF, String nameM, String nameL, String ph1, String ph1Type, String ph2, String ph2Type,
             String st, String ap, String cit, String sta, String zp, String em, String comp, String not){
 
         nameFirst = nameF;

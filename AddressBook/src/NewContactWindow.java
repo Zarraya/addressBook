@@ -369,7 +369,6 @@ public class NewContactWindow {
 		phone2Type = (String) txtPhone2Type.getSelectedItem();
 		city = txtCity.getText();
 		state = (String) txtState.getSelectedItem();
-		image = userImg.getDescription();
 	}
 	
 	private boolean checkSave(){
