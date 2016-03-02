@@ -4,20 +4,15 @@
 -- --------------------------------------------------------------------------------
 DELIMITER $$
 
-#procedure to run the Search. Returns a table containing only the contacts
-#matching the search value in any of the 5 columns.  
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Search`(
-#value user entered in 
 SearchValue varchar(45),  
-#column/value to sort by
 SortValue int,
-#order of sorting ascending or descending 
 SortOrder int)
 BEGIN
 
 IF SortOrder = 1 THEN
 SELECT * FROM Contacts 
-WHERE SearchValue IN (FirstName, LastName, State, City, Zip)
+WHERE SearchValue IN (FirstName, MiddleName, LastName, PhoneNumber1, PhoneNumber2, State, City, Zip, Email, Company)
 	ORDER BY 
 		CASE SortValue
 		WHEN 0 THEN FirstName
@@ -26,7 +21,7 @@ WHERE SearchValue IN (FirstName, LastName, State, City, Zip)
 		END desc;
 ELSE 
 SELECT * FROM Contacts 
-WHERE SearchValue IN (FirstName, LastName, State, City, Zip)
+WHERE SearchValue IN (FirstName, MiddleName, LastName, PhoneNumber1, PhoneNumber2, State, City, Zip, Email, Company)
 	ORDER BY 
 		CASE SortValue
 		WHEN 0 THEN FirstName

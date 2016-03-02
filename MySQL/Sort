@@ -4,11 +4,8 @@
 -- --------------------------------------------------------------------------------
 DELIMITER $$
 
-#Sorting the table by selected column/value and ascending or descending order
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Sort`(
-#Value to sort by (First, Last, or Zip)
 SortValue int,
-#Order to sort by (Ascending or Descending)
 SortOrder int)
 BEGIN
 
