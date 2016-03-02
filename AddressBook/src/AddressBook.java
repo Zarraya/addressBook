@@ -109,7 +109,7 @@ public class AddressBook {
        
        try {
 		MainWindow screen = new MainWindow(ab);
-		MainWindow.main(null);
+		screen.initialize();
        } catch (ParseException e) {
 		e.printStackTrace();
        }

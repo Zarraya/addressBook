@@ -77,22 +77,6 @@ public class EditContactWindow {
 	private static Entry entry;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					EditContactWindow window = new EditContactWindow(ab, entry);
-					window.mainFrame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}	
-	
-	/**
 	 * Create the application.
 	 * @throws ParseException 
 	 */
@@ -106,7 +90,7 @@ public class EditContactWindow {
 	 * Initialize the contents of the frame.
 	 * @throws ParseException 
 	 */
-	private void initialize() throws ParseException {
+	public void initialize() throws ParseException {
 		mainFrame = new JFrame();
 		mainFrame.setTitle("Edit contact");
 		mainFrame.setResizable(false);
@@ -130,6 +114,8 @@ public class EditContactWindow {
 		initializeCompany(company);
 		initializeNotes(notes);
 		initializeButtons();
+		
+		mainFrame.setVisible(true);
 	}
 	
 	/**

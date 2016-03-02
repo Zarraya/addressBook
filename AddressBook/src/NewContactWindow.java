@@ -74,22 +74,6 @@ public class NewContactWindow {
 	static AddressBook ab;
 	
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					NewContactWindow window = new NewContactWindow(ab);
-					window.mainFrame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the application.
 	 * @throws ParseException 
 	 */
@@ -102,7 +86,7 @@ public class NewContactWindow {
 	 * Initialize the contents of the frame.
 	 * @throws ParseException 
 	 */
-	private void initialize() throws ParseException {
+	public void initialize() throws ParseException {
 		mainFrame = new JFrame();
 		mainFrame.setTitle("Create a new contact");
 		mainFrame.setResizable(false);
@@ -125,6 +109,8 @@ public class NewContactWindow {
 		initializeCompany(company);
 		initializeNotes(notes);
 		initializeButtons();
+		
+		mainFrame.setVisible(true);
 	}
 	
 	private boolean checkEmpty(){
