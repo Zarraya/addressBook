@@ -17,22 +17,22 @@ public class AddressBook {
         return entries;
     }
 
-    public AddressBook(){
+    public AddressBook() {
 
         try {
             // Step 1: "Load" the JDBC driver
             Class.forName("com.mysql.jdbc.Driver");
             // Step 2: Establish the connection to the database
             conn = DriverManager.getConnection("jdbc:mysql://localhost/sys?" +
-                            "user=root&password=motoa84&useSSL=false");
+                    "user=root&password=motoa84&useSSL=false");
 
 
             CallableStatement callSt = conn.prepareCall("{CALL `sys`.`SetUp`()}");
             callSt.execute();
 
             sort(1, 0);
-        }
-        catch(Exception e){
+
+        } catch (Exception e) {
         }
     }
 
@@ -186,6 +186,7 @@ public class AddressBook {
     public static void main(String[] args) {
 
        AddressBook ab = new AddressBook();
+
 
        
        try {
