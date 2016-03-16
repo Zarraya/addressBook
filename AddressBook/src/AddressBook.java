@@ -186,6 +186,7 @@ public class AddressBook {
     public static void main(String[] args) {
 
        AddressBook ab = new AddressBook();
+
        
        try {
 		MainWindow screen = new MainWindow(ab);

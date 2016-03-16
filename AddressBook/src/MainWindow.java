@@ -21,6 +21,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 
 /**
  * 
@@ -83,8 +84,10 @@ public class MainWindow {
 	 * @throws ParseException 
 	 */
 	public MainWindow(AddressBook ab) throws ParseException {
+		this.ab = ab;
+
 		initialize();
-		MainWindow.ab = ab;
+
 	}
 
 	/**
@@ -431,6 +434,17 @@ public class MainWindow {
 		JPanel panelSidebar = new JPanel();
 		scrollSidebar.setViewportView(panelSidebar);
 		panelSidebar.setLayout(new BorderLayout(0, 0));
+
+		ArrayList<Entry> entries = ab.getEntries();
+		for(Entry e: entries){
+			if(e.getNameMiddle().isEmpty()){
+
+				e.setNameMiddle(" ");
+			}
+			String name = e.getNameLast() + ", " + e.getNameFirst() + e.getNameMiddle().charAt(0);
+			JButton btn = new JButton(name);
+			panelSidebar.add(btn);
+		}
 	}
 	
 	private void initializeToolbar(){

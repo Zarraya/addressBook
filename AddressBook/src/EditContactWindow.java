@@ -76,9 +76,11 @@ public class EditContactWindow {
 	 * @throws ParseException 
 	 */
 	public EditContactWindow(AddressBook ab, Entry entry) throws ParseException {
-		initialize();
 		EditContactWindow.ab = ab;
 		EditContactWindow.entry = entry;
+
+		initialize();
+
 	}
 
 	/**

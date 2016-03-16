@@ -74,8 +74,10 @@ public class NewContactWindow {
 	 * @throws ParseException 
 	 */
 	public NewContactWindow(AddressBook ab) throws ParseException {
-		initialize();
 		NewContactWindow.ab = ab;
+
+		initialize();
+
 	}
 
 	/**
