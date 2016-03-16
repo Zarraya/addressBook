@@ -27,6 +27,7 @@ public class MainWindow {
 	private JPanel panelSort;
 	private JTextField txtSearch;
 	private JPanel viewPanel;
+	private JPanel panelSidebar;
 	//text fields
 	private JTextField txtFirst;
 	private JTextField txtMiddle;
@@ -44,22 +45,7 @@ public class MainWindow {
 	private JTextField txtPhone1;
 	//scrolling text area
 	private JTextArea txtNotes;
-	//instance variables
-	private String first;
-	private String middle;
-	private String last;
-	private String street;
-	private String apt;
-	private String city;
-	private String zip;
-	private String email;
-	private String company;
-	private String state;
-	private String phone1;
-	private String phone1Type;
-	private String phone2;
-	private String phone2Type;
-	private String notes;
+	private JScrollPane scrollSidebar;
 
 	private String keyword;
 	private int sortType;
@@ -93,12 +79,12 @@ public class MainWindow {
 		mainFrame.getContentPane().add(viewPanel);
 		viewPanel.setLayout(null);
 
-		initializeName(first, middle, last);
-		initializePhone(phone1, phone2, phone1Type, phone2Type);
-		initializeAddress(street, apt, city, state, zip);
-		initializeEmail(email);
-		initializeComapny(company);
-		initializeNotes(notes);
+		initializeName();
+		initializePhone();
+		initializeAddress();
+		initializeEmail();
+		initializeComapny();
+		initializeNotes();
 		initializeButtons();
 		initializeToolbar();
 		initializeSidebar();
@@ -108,20 +94,20 @@ public class MainWindow {
 		mainFrame.setVisible(true);
 	}
 
-	private void initializeName(String first, String middle, String last){
-		txtFirst = new JTextField(first);
+	private void initializeName(){
+		txtFirst = new JTextField();
 		txtFirst.setEditable(false);
 		txtFirst.setBounds(10, 11, 187, 20);
 		txtFirst.setColumns(10);
 		viewPanel.add(txtFirst);
 
-		txtMiddle = new JTextField(middle);
+		txtMiddle = new JTextField();
 		txtMiddle.setEditable(false);
 		txtMiddle.setBounds(10, 51, 187, 20);
 		txtMiddle.setColumns(10);
 		viewPanel.add(txtMiddle);
 
-		txtLast = new JTextField(last);
+		txtLast = new JTextField();
 		txtLast.setEditable(false);
 		txtLast.setBounds(10, 91, 187, 20);
 		txtLast.setColumns(10);
@@ -140,23 +126,23 @@ public class MainWindow {
 		viewPanel.add(lblLast);
 	}
 
-	private void initializePhone(String phone1, String phone2, String phone1Type, String phone2Type){
-		txtPhone1 = new JTextField(phone1);
+	private void initializePhone(){
+		txtPhone1 = new JTextField();
 		txtPhone1.setEditable(false);
 		txtPhone1.setBounds(10, 136, 111, 20);
 		viewPanel.add(txtPhone1);
 
-		txtPhone2 = new JTextField(phone2);
+		txtPhone2 = new JTextField();
 		txtPhone2.setEditable(false);
 		txtPhone2.setBounds(10, 175, 111, 20);
 		viewPanel.add(txtPhone2);
 
-		txtPhone1Type = new JTextField(phone1Type);
+		txtPhone1Type = new JTextField();
 		txtPhone1Type.setEditable(false);
 		txtPhone1Type.setBounds(131, 136, 77, 20);
 		viewPanel.add(txtPhone1Type);
 
-		txtPhone2Type = new JTextField(phone2Type);
+		txtPhone2Type = new JTextField();
 		txtPhone2Type.setEditable(false);
 		txtPhone2Type.setBounds(131, 175, 77, 20);
 		viewPanel.add(txtPhone2Type);
@@ -170,31 +156,31 @@ public class MainWindow {
 		viewPanel.add(lblPhone2);
 	}
 
-	private void initializeAddress(String street, String apt, String city, String state, String zip){
-		txtStreet = new JTextField(street);
+	private void initializeAddress(){
+		txtStreet = new JTextField();
 		txtStreet.setEditable(false);
 		txtStreet.setBounds(10, 220, 258, 20);
 		txtStreet.setColumns(10);
 		viewPanel.add(txtStreet);
 
-		txtApt = new JTextField(apt);
+		txtApt = new JTextField();
 		txtApt.setEditable(false);
 		txtApt.setBounds(10, 260, 258, 20);
 		txtApt.setColumns(10);
 		viewPanel.add(txtApt);
 
-		txtCity = new JTextField(city);
+		txtCity = new JTextField();
 		txtCity.setEditable(false);
 		txtCity.setBounds(10, 300, 135, 20);
 		txtCity.setColumns(10);
 		viewPanel.add(txtCity);
 
-		txtState = new JTextField(state);
+		txtState = new JTextField();
 		txtState.setEditable(false);
 		txtState.setBounds(156, 300, 42, 20);
 		viewPanel.add(txtState);
 
-		txtZip = new JTextField(zip);
+		txtZip = new JTextField();
 		txtZip.setEditable(false);
 		txtZip.setBounds(208, 300, 60, 20);
 		txtZip.setColumns(10);
@@ -221,8 +207,8 @@ public class MainWindow {
 		viewPanel.add(lblZip);
 	}
 
-	private void initializeEmail(String email){
-		txtEmail = new JTextField(email);
+	private void initializeEmail(){
+		txtEmail = new JTextField();
 		txtEmail.setEditable(false);
 		txtEmail.setBounds(10, 348, 258, 20);
 		txtEmail.setColumns(10);
@@ -233,8 +219,8 @@ public class MainWindow {
 		viewPanel.add(lblEmail);
 	}
 
-	private void initializeComapny(String company){
-		txtCompany = new JTextField(company);
+	private void initializeComapny(){
+		txtCompany = new JTextField();
 		txtCompany.setEditable(false);
 		txtCompany.setBounds(10, 388, 258, 20);
 		txtCompany.setColumns(10);
@@ -245,12 +231,12 @@ public class MainWindow {
 		viewPanel.add(lblCompany);
 	}
 
-	private void initializeNotes(String notes){
+	private void initializeNotes(){
 		JScrollPane scrollNotes = new JScrollPane();
 		scrollNotes.setBounds(10, 429, 309, 47);
 		viewPanel.add(scrollNotes);
 
-		txtNotes = new JTextArea(notes);
+		txtNotes = new JTextArea();
 		txtNotes.setEditable(false);
 		scrollNotes.setViewportView(txtNotes);
 		txtNotes.setWrapStyleWord(true);
@@ -268,8 +254,8 @@ public class MainWindow {
 							txtPhone1Type.getText(), txtPhone2.getText(),txtPhone2Type.getText(), txtStreet.getText(),
 							txtApt.getText(), txtCity.getText(), txtState.getText(), txtZip.getText(), txtEmail.getText(),
 							txtCompany.getText(), txtNotes.getText());
-
 					EditContactWindow edit = new EditContactWindow(ab, temp);
+					update();
 				} catch (ParseException e1) {
 					e1.printStackTrace();
 				}
@@ -297,7 +283,7 @@ public class MainWindow {
 							txtCompany.getText(), txtNotes.getText());
 					ab.removeContact(temp);
 					JOptionPane.showMessageDialog(null, "Contact deleted.");
-					//refresh pane.
+					update();
 				} else {
 					// no option
 				}
@@ -316,15 +302,15 @@ public class MainWindow {
 					try {
 						File file = new File(chooser.getSelectedFile() + ".txt");
 						PrintWriter pw = new PrintWriter(file);
-						pw.println(first+ middle+ last);
-						pw.println(phone1Type+ phone1);
-						pw.println(phone2Type+ phone2);
-						pw.println(street);
-						pw.println(apt);
-						pw.println(city+ state+ zip);
-						pw.println(email);
-						pw.println(company);
-						pw.println(notes);
+						pw.println(txtFirst.getText() + txtMiddle.getText() + txtLast.getText());
+						pw.println(txtPhone1Type.getText() + " : " + txtPhone1.getText());
+						pw.println(txtPhone2Type.getText() + " : " + txtPhone2.getText());
+						pw.println(txtStreet.getText());
+						pw.println(txtApt.getText());
+						pw.println(txtCity.getText() + txtState.getText() + txtZip.getText());
+						pw.println(txtEmail.getText());
+						pw.println(txtCompany.getText());
+						pw.println(txtNotes.getText());
 						pw.close();
 					} catch (IOException e1) {
 						e1.printStackTrace();
@@ -410,18 +396,22 @@ public class MainWindow {
 	}
 
 	private void initializeSidebar(){
-		JScrollPane scrollSidebar = new JScrollPane();
+		scrollSidebar = new JScrollPane();
 		scrollSidebar.setBounds(5, 55, 335, 473);
 		mainFrame.getContentPane().add(scrollSidebar);
 
-		JPanel panelSidebar = new JPanel();
+		panelSidebar = new JPanel();
 		scrollSidebar.setViewportView(panelSidebar);
 		panelSidebar.setLayout(new BoxLayout(panelSidebar, BoxLayout.Y_AXIS));
 
 		ArrayList<Entry> entries = ab.getEntries();
 
+		if(entries.isEmpty()){
+			return;
+		}
+
 		for(Entry e: entries){
-			String name = e.getNameLast() + ", " + e.getNameFirst() + " " + e.getNameMiddle().charAt(0);
+			String name = e.getNameLast() + ", " + e.getNameFirst() + " " + e.getNameMiddle().substring(0);
 			ReferencingButton<Entry> btn = new ReferencingButton<Entry>();
 			btn.setText(name);
 			btn.setValue(e);
@@ -470,5 +460,14 @@ public class MainWindow {
 			}
 		});
 		toolBar.add(btnCreateANew);
+	}
+
+	private void update(){
+		mainFrame.remove(scrollSidebar);
+		mainFrame.revalidate();
+		mainFrame.repaint();
+		initializeSidebar();
+		scrollSidebar.revalidate();
+		scrollSidebar.repaint();
 	}
 }

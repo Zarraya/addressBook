@@ -149,6 +149,11 @@ public class AddressBook {
 
         try{
 
+            if(set == null){
+
+                return new ArrayList<Entry>();
+            }
+
             entries.clear();
 
             while(set.next()){
