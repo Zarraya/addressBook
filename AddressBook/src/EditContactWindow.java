@@ -67,14 +67,16 @@ public class EditContactWindow {
 
 	private static AddressBook ab;
 	private static Entry entry;
+	private static MainWindow window;
 
 	/**
 	 * Create the application.
 	 * @throws ParseException
 	 */
-	public EditContactWindow(AddressBook ab, Entry entry) throws ParseException {
+	public EditContactWindow(AddressBook ab, Entry entry, MainWindow win) throws ParseException {
 		EditContactWindow.ab = ab;
 		EditContactWindow.entry = entry;
+		window = win;
 		initialize();
 	}
 
@@ -307,6 +309,11 @@ public class EditContactWindow {
 					ab.editContact(entry, first, middle, last, phone1, phone1Type, phone2, phone2Type, street,
 							apt, city, state, zip, email, company, notes);
 					JOptionPane.showMessageDialog(null, "Changes saved.");
+
+					Entry temp = new Entry(first, middle, last, phone1, phone1Type, phone2, phone2Type, street,
+							apt, city, state, zip, email, company, notes);
+
+					window.update(2, temp);
 					mainFrame.dispose();
 				}else{
 					JOptionPane.showMessageDialog(null, "To save changes please add a first and last name.");
@@ -323,6 +330,11 @@ public class EditContactWindow {
 					ab.addContact(first, middle, last, phone1, phone1Type, phone2, phone2Type, street,
 							apt, city, state, zip, email, company, notes);
 					JOptionPane.showMessageDialog(null, "Changes saved.");
+
+					Entry temp = new Entry(first, middle, last, phone1, phone1Type, phone2, phone2Type, street,
+							apt, city, state, zip, email, company, notes);
+
+					window.update(2, temp);
 					mainFrame.dispose();
 				}else{
 					JOptionPane.showMessageDialog(null, "To save contact please add first and last name.");

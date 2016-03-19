@@ -3,6 +3,7 @@
  */
 public class Entry {
 
+    //declare private fields for all of the information that entry can contain
     private String nameFirst;
     private String nameMiddle;
     private String nameLast;
@@ -20,6 +21,9 @@ public class Entry {
     private String notes;
     private String image;
 
+    /*
+    The constructor for entry that takes all of the needed information in
+     */
     public Entry(String nameF, String nameM, String nameL, String ph1, String ph1Type, String ph2, String ph2Type,
             String st, String ap, String cit, String sta, String zp, String em, String comp, String not){
 
@@ -38,6 +42,23 @@ public class Entry {
         email = em;
         company = comp;
         notes = not;
+    }
+
+    /*
+    An override for the Entry.toString method that will return the name information. This is used by the JList class
+     */
+    @Override
+    public String toString(){
+
+        //if the middle name exsists then return the first letter
+        if(!nameMiddle.isEmpty()) {
+            return nameLast + ", " + nameFirst + " " + nameMiddle.substring(0, 1);
+        }
+        //otherwise return the first and last names only
+        else{
+
+            return nameLast + ", " + nameFirst;
+        }
     }
 
     public String getNameFirst() {

@@ -1,3 +1,5 @@
+import sun.applet.Main;
+
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import java.text.ParseException;
@@ -69,13 +71,15 @@ public class NewContactWindow {
 	private String notes;
 
 	static AddressBook ab;
+	static MainWindow window;
 
 	/**
 	 * Create the application.
 	 * @throws ParseException
 	 */
-	public NewContactWindow(AddressBook ab) throws ParseException {
+	public NewContactWindow(AddressBook ab, MainWindow window) throws ParseException {
 		NewContactWindow.ab = ab;
+		this.window = window;
 		initialize();
 	}
 
@@ -297,6 +301,12 @@ public class NewContactWindow {
 					ab.addContact(first, middle, last, phone1, phone1Type, phone2, phone2Type,
 							street, apt, city, state, zip, email, company, notes);
 					JOptionPane.showMessageDialog(null, "Changes saved.");
+
+					Entry temp = new Entry(first, middle, last, phone1, phone1Type, phone2, phone2Type, street,
+							apt, city, state, zip, email, company, notes);
+
+					window.update(0, temp);
+
 					mainFrame.dispose();
 				}else{
 					JOptionPane.showMessageDialog(null, "To save contact please add first and last name.");
